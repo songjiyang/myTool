@@ -1,62 +1,43 @@
 <template>
-  <div class="row q-col-gutter-none">
-    <div class="q-pa-md" style="width: 50%; max-height: 60%">
-      <q-input v-model="text" filled autogrow type="textarea" />
+  <div class="row" style="height: 500px">
+    <div class="q-pa-md" style="width: 50%">
+      <q-input
+        v-model="text"
+        filled
+        type="textarea"
+        hide-bottom-space
+        :input-style="{ minHeight: '600px', maxHeight: '100%' }"
+      />
     </div>
-    <div style="width: 50%">
-      <q-input v-model="selectValue" type="text" />
-      <json-viewer :value="jsonValue"> </json-viewer>
+    <div class="q-pa-md" style="width: 50%">
+      <div ref="jsoneditorNode" style="height: 600px" class=".col-5"></div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import JsonViewer from 'vue-json-viewer';
-import { watch, ref } from 'vue';
-import jp from 'jsonpath';
-const text = ref('xx');
-let jsonValue = ref('');
-let selectValue = ref('');
-let tmpJsonValue = '';
-setJsonValue();
-
+import 'jsoneditor/dist/jsoneditor.min.css';
+import JSONEditor, { JSONEditorOptions } from 'jsoneditor';
+import { watch, ref, onMounted } from 'vue';
+const text = ref('{"message":"example json string"}');
+let jsoneditorNode = ref<HTMLElement>();
+let editor: JSONEditor;
+const editorOptions: JSONEditorOptions = {
+  modes: ['tree', 'code'],
+};
 watch(text, () => {
   setJsonValue();
 });
-
-watch(selectValue, () => {
-  selectJsonValue(selectValue);
+onMounted(() => {
+  if (jsoneditorNode.value) {
+    editor = new JSONEditor(jsoneditorNode.value, editorOptions);
+  }
 });
-function selectJsonValue(selectValue) {
-  try {
-    if (selectValue.value) {
-      if (!tmpJsonValue) {
-        tmpJsonValue = JSON.parse(text.value);
-      }
-      let nodes = jp.nodes(tmpJsonValue, selectValue.value);
-      let sv = [];
-      for (let one of nodes) {
-        sv.push(one['value']);
-      }
-      jsonValue.value = sv;
-    } else {
-      setJsonValue();
-      tmpJsonValue = '';
-    }
-  } catch (e) {}
-}
 function setJsonValue() {
   try {
-    jsonValue.value = JSON.parse(text.value);
-    debugger;
-    if (
-      jsonValue.value instanceof String ||
-      typeof jsonValue.value === 'string'
-    ) {
-      jsonValue.value = JSON.parse(jsonValue.value);
-    }
+    editor.set(JSON.parse(text.value));
   } catch (e) {
-    jsonValue.value = 'invalid json';
+    editor.set(text.value);
   }
 }
 </script>

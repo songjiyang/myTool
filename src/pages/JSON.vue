@@ -6,11 +6,11 @@
         filled
         type="textarea"
         hide-bottom-space
-        :input-style="{ minHeight: '600px', maxHeight: '100%' }"
+        :input-style="{ minHeight: '670px', maxHeight: '100%' }"
       />
     </div>
     <div class="q-pa-md" style="width: 50%">
-      <div ref="jsoneditorNode" style="height: 600px" class=".col-5"></div>
+      <div ref="jsoneditorNode" style="height: 670px" class=".col-5"></div>
     </div>
   </div>
 </template>

@@ -1,7 +1,7 @@
 <template>
   <q-layout view="hHh lpR fFf">
     <q-header elevated class="bg-primary text-white" height-hint="98">
-      <q-toolbar>
+      <!-- <q-toolbar>
         <q-btn dense flat round icon="menu" @click="toggleLeftDrawer" />
 
         <q-toolbar-title>
@@ -10,7 +10,7 @@
           </q-avatar>
           myTool
         </q-toolbar-title>
-      </q-toolbar>
+      </q-toolbar> -->
 
       <q-tabs align="left">
         <q-route-tab to="/" label="主页" />

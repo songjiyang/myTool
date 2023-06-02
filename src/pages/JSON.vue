@@ -19,11 +19,15 @@
 import 'jsoneditor/dist/jsoneditor.min.css';
 import JSONEditor, { JSONEditorOptions } from 'jsoneditor';
 import { watch, ref, onMounted } from 'vue';
+import dayjs from 'dayjs';
 const text = ref('{"message":"example json string"}');
 let jsoneditorNode = ref<HTMLElement>();
 let editor: JSONEditor;
 const editorOptions: JSONEditorOptions = {
   modes: ['tree', 'code'],
+  timestampFormat(node) {
+    return dayjs(node.value).format('YYYY-MM-DD HH:mm:ss:SSS');
+  },
 };
 watch(text, () => {
   setJsonValue();

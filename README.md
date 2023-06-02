@@ -2,7 +2,7 @@
 
 一些实用工具，可使用 Web 界面或者编译成本地 APP
 
-- JSON 字符串转化，支持转义的 JSON，支持 JSONPATH 搜索
+- JSON 字符串转化，使用了 [JSONEditor](https://github.com/josdejong/jsoneditor)
 
 ## Install the dependencies
 

@@ -15,7 +15,6 @@
       <q-tabs align="left">
         <q-route-tab to="/" label="主页" />
         <q-route-tab to="/json" label="JSON" />
-        <q-route-tab to="/page3" label="Page Three" />
       </q-tabs>
     </q-header>
 

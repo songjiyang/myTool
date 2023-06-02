@@ -13,10 +13,13 @@
     "build": "quasar build"
   },
   "dependencies": {
+    "@codemirror/merge": "^6.1.0",
     "@quasar/extras": "^1.0.0",
+    "@types/codemirror": "^5.60.7",
     "@types/jsoneditor": "^9.9.0",
     "@types/jsonpath": "^0.2.0",
     "axios": "^1.2.1",
+    "codemirror": "^6.0.1",
     "dayjs": "^1.11.7",
     "electron": "^25.0.0",
     "jsoneditor": "^9.10.2",

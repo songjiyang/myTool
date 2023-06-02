@@ -15,6 +15,7 @@
       <q-tabs align="left">
         <q-route-tab to="/" label="主页" />
         <q-route-tab to="/json" label="JSON" />
+        <q-route-tab to="/compare" label="文本比较" />
       </q-tabs>
     </q-header>
 

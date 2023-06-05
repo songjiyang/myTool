@@ -16,6 +16,7 @@
         <q-route-tab to="/" label="主页" />
         <q-route-tab to="/json" label="JSON" />
         <q-route-tab to="/compare" label="文本比较" />
+        <q-route-tab to="/binary_tree" label="展示树" />
       </q-tabs>
     </q-header>
 

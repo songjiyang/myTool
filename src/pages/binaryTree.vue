@@ -1,17 +1,9 @@
 <template>
-  <div ref="rootContianer"></div>
-  <div
-    class="left-line"
-    style="width: 50px; height: 50px; border: 1px solid; overflow: auto"
-  ></div>
-  <div
-    class="right-line"
-    style="width: 50px; height: 50px; border: 1px solid; overflow: auto"
-  ></div>
+  <div ref="rootContianer" class="root"></div>
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref, h, render, VNode } from 'vue';
+import { onMounted, ref, h, render, VNode, VNodeArrayChildren } from 'vue';
 let rootContianer = ref<Element>();
 
 let doc = [1, 3, 2, null, 6, 4, 5, null, null, null, null, 8, 7];
@@ -21,36 +13,18 @@ for (let i = doc.length; i < paddingLength; i++) {
   doc.push(null);
 }
 console.log(doc);
-let depthContianer: VNode[] = [];
 
 onMounted(() => {
-  debugger;
-  depthContianer;
   let root = renderNode(doc, 0, 1, null);
-  render(root, rootContianer.value);
+  render(root, rootContianer.value as Element);
 });
 
 function renderNode(data, i, depth, left) {
-  let newContainer;
-  if (depthContianer[depth]) {
-    newContainer = depthContianer[depth];
-  } else {
-    newContainer = h(
-      'div',
-      {
-        style:
-          'display: flex;align-content: center;justify-content: space-around',
-      },
-      []
-    );
-    depthContianer[depth] = newContainer;
-  }
-
   // no left node and right node
   if (2 * i + 1 > data.length - 1) {
     // do render
 
-    return renderOneNode(data[i], left);
+    return renderOneNode(data[i], left, depth);
   } else {
     let nowContainer = h(
       'div',
@@ -60,23 +34,23 @@ function renderNode(data, i, depth, left) {
       []
     );
     let leftNode = renderNode(data, 2 * i + 1, depth + 1, true);
-    nowContainer.children.push(leftNode);
+    (nowContainer.children as VNodeArrayChildren).push(leftNode);
     if (2 * i + 2 <= data.length - 1) {
       let rightNode = renderNode(data, 2 * i + 2, depth + 1, false);
-      nowContainer.children.push(rightNode);
+      (nowContainer.children as VNodeArrayChildren).push(rightNode);
     }
 
     let newNode = renderOneNode(data[i], left, depth);
 
     let parentContainer = h('div', null, []);
 
-    parentContainer.children.push(newNode);
-    parentContainer.children.push(nowContainer);
+    (parentContainer.children as VNodeArrayChildren).push(newNode);
+    (parentContainer.children as VNodeArrayChildren).push(nowContainer);
     return parentContainer;
   }
 }
 
-function renderOneNode(oneData, left, depth) {
+function renderOneNode(oneData: number, left: boolean, depth: number) {
   let textNode = h('div', { class: 'text' }, oneData);
   let circleNode = h(
     'div',
@@ -92,11 +66,11 @@ function renderOneNode(oneData, left, depth) {
         style: `width: ${width}px; height: 50px; overflow: auto`,
         class: left ? 'left-line' : 'right-line',
       },
-      null
+      undefined
     );
-    wholeNode.children.push(linkNode);
+    (wholeNode.children as VNodeArrayChildren).push(linkNode);
   }
-  wholeNode.children.push(circleNode);
+  (wholeNode.children as VNodeArrayChildren).push(circleNode);
   return wholeNode;
 }
 </script>
@@ -139,5 +113,8 @@ function renderOneNode(oneData, left, depth) {
   background-repeat: no-repeat;
   background-position: center center;
   background-size: 100% 100%, auto;
+}
+.root {
+  margin-top: 30px;
 }
 </style>

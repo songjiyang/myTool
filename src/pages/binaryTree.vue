@@ -88,7 +88,7 @@ function renderOneNode(oneData: number, left: boolean, depth: number) {
 .circle-empty {
   position: relative;
   background-color: 'white';
-  margin: 20px auto;
+  margin: 0px auto;
   width: 50px;
   height: 50px;
   border-radius: 25px;

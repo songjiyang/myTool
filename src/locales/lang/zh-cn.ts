@@ -59,7 +59,7 @@ const locale: LocaleMessages<I18nType.Schema> = {
         404: '404',
         500: '500'
       },
-      'multi-menu': {
+      json: {
         _value: '多级菜单',
         first: {
           _value: '一级菜单',

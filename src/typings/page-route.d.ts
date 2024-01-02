@@ -22,11 +22,11 @@ declare namespace PageRoute {
     | 'constant-page'
     | 'login'
     | 'not-found'
-    | 'multi-menu'
-    | 'multi-menu_first'
-    | 'multi-menu_first_second-new'
-    | 'multi-menu_first_second-new_third'
-    | 'multi-menu_first_second';
+    | 'compare'
+    | 'json'
+    | 'json_format'
+    | 'tree'
+    | 'tree_binaryTree';
 
   /**
    * last degree route key, which has the page file
@@ -34,13 +34,6 @@ declare namespace PageRoute {
    */
   type LastDegreeRouteKey = Extract<
     RouteKey,
-    | '403'
-    | '404'
-    | '500'
-    | 'constant-page'
-    | 'login'
-    | 'not-found'
-    | 'multi-menu_first_second-new_third'
-    | 'multi-menu_first_second'
+    '403' | '404' | '500' | 'constant-page' | 'login' | 'not-found' | 'compare' | 'json_format' | 'tree_binaryTree'
   >;
 }

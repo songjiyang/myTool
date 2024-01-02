@@ -9,6 +9,7 @@ import { getSrcPath } from '../utils';
 export default function unplugin(viteEnv: ImportMetaEnv) {
   const { VITE_ICON_PREFFIX, VITE_ICON_LOCAL_PREFFIX } = viteEnv;
 
+	console.log('unplugin')
   const srcPath = getSrcPath();
   const localIconPath = `${srcPath}/assets/svg-icon`;
 

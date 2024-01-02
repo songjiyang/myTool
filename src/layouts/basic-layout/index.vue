@@ -19,9 +19,9 @@
     :right-footer="theme.footer.right"
     @click-mobile-sider-mask="app.setSiderCollapse(true)"
   >
-    <template #header>
+    <!-- <template #header>
       <global-header v-bind="headerProps" />
-    </template>
+    </template> -->
     <template #tab>
       <global-tab />
     </template>

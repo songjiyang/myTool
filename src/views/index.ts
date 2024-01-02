@@ -10,6 +10,7 @@ export const views: Record<
   'constant-page': () => import('./_builtin/constant-page/index.vue'),
   login: () => import('./_builtin/login/index.vue'),
   'not-found': () => import('./_builtin/not-found/index.vue'),
-  'multi-menu_first_second-new_third': () => import('./multi-menu/first/second-new/third/index.vue'),
-  'multi-menu_first_second': () => import('./multi-menu/first/second/index.vue')
+  compare: () => import('./compare/index.vue'),
+  json_format: () => import('./json/format/index.vue'),
+  tree_binaryTree: () => import('./tree/binaryTree/index.vue')
 };

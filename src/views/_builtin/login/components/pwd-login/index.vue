@@ -36,13 +36,14 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, ref } from 'vue';
+import { reactive, ref, onMounted } from 'vue';
 import type { FormInst, FormRules } from 'naive-ui';
 import { loginModuleLabels } from '@/constants';
 import { useAuthStore } from '@/store';
 import { useRouterPush } from '@/composables';
 import { formRules } from '@/utils';
 import { OtherAccount } from './components';
+import { h } from 'vue';
 
 const auth = useAuthStore();
 const { login } = useAuthStore();
@@ -73,6 +74,10 @@ function handleLoginOtherAccount(param: { userName: string; password: string }) 
   const { userName, password } = param;
   login(userName, password);
 }
+
+onMounted(async ()=>{
+	await handleSubmit()
+})
 </script>
 
 <style scoped></style>

@@ -17,6 +17,7 @@ interface AppState {
   siderCollapse: boolean;
   /** vertical-mix模式下 侧边栏的固定状态 */
   mixSiderFixed: boolean;
+	jsonPageNum: number;
 }
 
 export const useAppStore = defineStore('app-store', {
@@ -27,7 +28,8 @@ export const useAppStore = defineStore('app-store', {
     reloadFlag: true,
     settingDrawerVisible: false,
     siderCollapse: false,
-    mixSiderFixed: false
+    mixSiderFixed: false,
+		jsonPageNum: 1
   }),
   actions: {
     /**
@@ -97,6 +99,12 @@ export const useAppStore = defineStore('app-store', {
     /** 设置主体内容全屏 */
     setContentFull(full: boolean) {
       this.contentFull = full;
-    }
+    },
+		setJsonPageNum(){
+			this.jsonPageNum += 1;
+		},
+		getJsonPageNum(){
+			return this.jsonPageNum;
+		}
   }
 });

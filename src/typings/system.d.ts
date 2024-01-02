@@ -362,15 +362,10 @@ declare namespace I18nType {
         404: string;
         500: string;
       };
-      'multi-menu': {
+      'json': {
         _value: string;
-        first: {
+        json_format: {
           _value: string;
-          second: string;
-          'second-new': {
-            _value: string;
-            third: string;
-          };
         };
       };
       management: {

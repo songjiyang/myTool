@@ -7,15 +7,15 @@
 ]"
 		></n-input>
 		<div
-			ref="rootContianer"
+			ref="rootContainer"
 			style="margin: 10px; height: 100%; display: flex; overflow: auto"
 		></div>
 	</div>
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref, h, render, VNode, VNodeArrayChildren } from "vue";
-let rootContianer = ref<Element>();
+import { onMounted, ref, h, render,  VNodeArrayChildren } from "vue";
+let rootContainer = ref<Element>();
 
 let doc = "[0, 2, 4, 1, null, 3, -1, 5, 1, null, 6, null, 8]";
 // for(let i = 0; i < doc.length; i++) {
@@ -28,7 +28,7 @@ onMounted(() => {
 	makeTreeFromArrayStr(doc);
 });
 
-function renderNode(data, i, depth, left) {
+function renderNode(data: number[], i: number, depth: number, left: boolean) {
 	// no left node and right node
 	if (2 * i + 1 > data.length - 1) {
 		// do render
@@ -97,55 +97,55 @@ function renderOneNode(oneData: number, left: boolean, depth: number) {
 function makeTreeFromArrayStr(arrayStr: string) {
 	arrayStr = arrayStr.replace("[", "").replace("]", "").replaceAll(" ", "");
 	let split = arrayStr.split(",");
-	let nums: Array<number | null> = [];
+	let numbers: Array<number | null> = [];
 	debugger;
 	for (let i = 0; i < split.length; i++) {
 		if ("null" === split[i]) {
-			nums.push(null);
+			numbers.push(null);
 		} else {
-			nums.push(parseInt(split[i]));
+			numbers.push(parseInt(split[i]));
 		}
 	}
 
 
-	console.log(nums);
+	console.log(numbers);
 
 	let rs: Array<TreeNode | null> = [];
-	rs.push(new TreeNode(nums[0], null, null));
+	rs.push(new TreeNode(numbers[0], null, null));
 
-	for (let i = 0; i < (nums.length - 1) / 2; i++) {
+	for (let i = 0; i < (numbers.length - 1) / 2; i++) {
 		while (rs.length < 2 * i + 3) {
 			rs.push(null);
 		}
 		if (rs[i] == null) {
 			rs.splice(2 * i + 1, 0, null);
 			rs.splice(2 * i + 2, 0, null);
-			nums.splice(2 * i + 1, 0, null);
-			nums.splice(2 * i + 2, 0, null);
+			numbers.splice(2 * i + 1, 0, null);
+			numbers.splice(2 * i + 2, 0, null);
 			continue;
 		}
-		if (nums[2 * i + 1] == null) {
+		if (numbers[2 * i + 1] == null) {
 			rs[i].left = null;
 		} else {
-			rs[i].left = new TreeNode(nums[2 * i + 1], null, null);
+			rs[i].left = new TreeNode(numbers[2 * i + 1], null, null);
 			rs.splice(2 * i + 1, 0, rs[i].left);
 		}
 
-		if (nums[2 * i + 2] == null) {
+		if (numbers[2 * i + 2] == null) {
 			rs[i].right = null;
 		} else {
-			rs[i].right = new TreeNode(nums[2 * i + 2], null, null);
+			rs[i].right = new TreeNode(numbers[2 * i + 2], null, null);
 			rs.splice(2 * i + 2, 0, rs[i].right);
 		}
 	}
-	 maxDepth = parseInt(Math.log(nums.length) / Math.log(2)) + 1;
+	 maxDepth = parseInt(Math.log(numbers.length) / Math.log(2)) + 1;
 	let pow = Math.pow(2, maxDepth);
-	for (let i = nums.length; i < pow - 1; i++) {
-		nums.push(null);
+	for (let i = numbers.length; i < pow - 1; i++) {
+		numbers.push(null);
 	}
-	let root = renderNode(nums, 0, 1, null);
+	let root = renderNode(numbers, 0, 1, null);
 
-	render(root, rootContianer.value as Element);
+	render(root, rootContainer.value as Element);
 }
 class TreeNode {
 	val;

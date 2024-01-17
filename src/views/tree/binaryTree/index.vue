@@ -1,33 +1,31 @@
 <template>
 	<div>
-		<n-input @change="makeTreeFromArrayStr" placeholder="[
+		<n-input
+			@change="makeTreeFromArrayStr"
+			placeholder="[
 	1,2,3,4,5,6
-]"></n-input>
-		<div ref="rootContianer" style="margin: 10px;height:100%;width:100%; display: flex;overflow: auto"></div>
+]"
+		></n-input>
+		<div
+			ref="rootContianer"
+			style="margin: 10px; height: 100%; display: flex; overflow: auto"
+		></div>
 	</div>
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref, h, render, VNode, VNodeArrayChildren } from 'vue';
+import { onMounted, ref, h, render, VNode, VNodeArrayChildren } from "vue";
 let rootContianer = ref<Element>();
 
-let doc = [
-	1, 2, 3, 4, 5, 6
-];
+let doc = "[0, 2, 4, 1, null, 3, -1, 5, 1, null, 6, null, 8]";
 // for(let i = 0; i < doc.length; i++) {
 // 	doc[i] = i+1;
 // }
 
 let maxDepth = Math.ceil(Math.log2(doc.length));
-let paddingLength = Math.pow(2, maxDepth);
-for (let i = doc.length; i < paddingLength; i++) {
-	doc.push(null);
-}
-console.log(doc);
 
 onMounted(() => {
-	let root = renderNode(doc, 0, 1, null);
-	render(root, rootContianer.value as Element);
+	makeTreeFromArrayStr(doc);
 });
 
 function renderNode(data, i, depth, left) {
@@ -38,9 +36,9 @@ function renderNode(data, i, depth, left) {
 		return renderOneNode(data[i], left, depth);
 	} else {
 		let nowContainer = h(
-			'div',
+			"div",
 			{
-				style: 'display: flex;overflow: auto',
+				style: "display: flex;overflow: auto",
 			},
 			[]
 		);
@@ -53,7 +51,7 @@ function renderNode(data, i, depth, left) {
 
 		let newNode = renderOneNode(data[i], left, depth);
 
-		let parentContainer = h('div', null, []);
+		let parentContainer = h("div", null, []);
 
 		(parentContainer.children as VNodeArrayChildren).push(newNode);
 		(parentContainer.children as VNodeArrayChildren).push(nowContainer);
@@ -62,25 +60,34 @@ function renderNode(data, i, depth, left) {
 }
 
 function renderOneNode(oneData: number, left: boolean, depth: number) {
-	let textNode = h('div', { class: 'text' }, oneData);
+	let textNode = h("div", { class: "text" }, oneData);
 	let circleNode = h(
-		'div',
-		{ class: oneData ? 'circle' : 'circle-empty' },
+		"div",
+		{ class: oneData || oneData == 0 ? "circle" : "circle-empty" },
 		textNode
 	);
-	let wholeNode = h('div', null, []);
-	if (left != null && oneData) {
+	let wholeNode = h("div", null, []);
+	if (left != null && (oneData || oneData == 0)) {
 		let width = Math.pow(2, maxDepth - depth) * 50;
 		let linkNode = h(
-			'div',
+			"div",
 			{
 				style: `width: ${width}px; height: 50px; overflow: auto`,
-				class: left ? 'left-line' : 'right-line',
+				class: left ? "left-line" : "right-line",
 			},
 			undefined
 		);
 		(wholeNode.children as VNodeArrayChildren).push(linkNode);
-
+	} else {
+		let width = Math.pow(2, maxDepth - depth) * 50;
+		let linkNode = h(
+			"div",
+			{
+				style: `width: ${width}px; height: 50px; overflow: auto`,
+			},
+			undefined
+		);
+		(wholeNode.children as VNodeArrayChildren).push(linkNode);
 	}
 	(wholeNode.children as VNodeArrayChildren).push(circleNode);
 
@@ -88,30 +95,25 @@ function renderOneNode(oneData: number, left: boolean, depth: number) {
 }
 
 function makeTreeFromArrayStr(arrayStr: string) {
-
-	arrayStr = arrayStr.replace("[", "").replace("]", "");
-	let split = arrayStr.split(',');
+	arrayStr = arrayStr.replace("[", "").replace("]", "").replaceAll(" ", "");
+	let split = arrayStr.split(",");
 	let nums: Array<number | null> = [];
+	debugger;
 	for (let i = 0; i < split.length; i++) {
 		if ("null" === split[i]) {
 			nums.push(null);
 		} else {
-			nums.push(parseInt(split[i]))
+			nums.push(parseInt(split[i]));
 		}
-
-	}
-	let maxLevel = parseInt(Math.log(nums.length) / Math.log(2)) + 1;
-	let pow = Math.pow(2, maxLevel);
-	for (let i = nums.length; i < pow - 1; i++) {
-		nums.push(null);
 	}
 
-	debugger;
+
+	console.log(nums);
+
 	let rs: Array<TreeNode | null> = [];
 	rs.push(new TreeNode(nums[0], null, null));
 
 	for (let i = 0; i < (nums.length - 1) / 2; i++) {
-
 		while (rs.length < 2 * i + 3) {
 			rs.push(null);
 		}
@@ -124,22 +126,25 @@ function makeTreeFromArrayStr(arrayStr: string) {
 		}
 		if (nums[2 * i + 1] == null) {
 			rs[i].left = null;
-		}
-		else {
+		} else {
 			rs[i].left = new TreeNode(nums[2 * i + 1], null, null);
 			rs.splice(2 * i + 1, 0, rs[i].left);
 		}
 
 		if (nums[2 * i + 2] == null) {
 			rs[i].right = null;
-		}
-		else {
+		} else {
 			rs[i].right = new TreeNode(nums[2 * i + 2], null, null);
 			rs.splice(2 * i + 2, 0, rs[i].right);
 		}
-
+	}
+	 maxDepth = parseInt(Math.log(nums.length) / Math.log(2)) + 1;
+	let pow = Math.pow(2, maxDepth);
+	for (let i = nums.length; i < pow - 1; i++) {
+		nums.push(null);
 	}
 	let root = renderNode(nums, 0, 1, null);
+
 	render(root, rootContianer.value as Element);
 }
 class TreeNode {
@@ -147,19 +152,21 @@ class TreeNode {
 	left;
 	right;
 
-	constructor(val: number | null, left: TreeNode | null, right: TreeNode | null) {
+	constructor(
+		val: number | null,
+		left: TreeNode | null,
+		right: TreeNode | null
+	) {
 		this.val = val;
 		this.left = left;
 		this.right = right;
 	}
-
-
 }
 </script>
 <style>
 .circle {
 	position: relative;
-	background-color: 'white';
+	background-color: "white";
 	margin: 0px auto;
 	width: 50px;
 	height: 50px;
@@ -170,7 +177,7 @@ class TreeNode {
 
 .circle-empty {
 	position: relative;
-	background-color: 'white';
+	background-color: "white";
 	margin: 0px auto;
 	width: 50px;
 	height: 50px;
@@ -182,7 +189,7 @@ class TreeNode {
 	top: 50%;
 	left: 50%;
 	transform: translate(-50%, -50%);
-	color: 'black';
+	color: "black";
 }
 
 .left-line {
